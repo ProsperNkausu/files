@@ -1,21 +1,30 @@
 <?php
 session_start();
+$_SESSION['username'] = null;
+$_SESSION['password'] = null;
 require_once("./conn.php");
-if(isset($_POST['submit'])){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
 
 
-$user1 = $pdo->prepare("SELECT FROM users WHERE username='$username', password='$password' ");
+$user1 = $pdo->prepare("SELECT * FROM users WHERE username= '$password'");
 $user1->execute();
-if($user1 != null){
-$_SESSION['username'] = $username;
-$_SESSION['password'] = $password;
+$user = $user1->fetchAll(PDO::FETCH_ASSOC);
+foreach($user as $u){
+    $db_name = $u['username'];
+    $db_pas = $u['password'];
+
+if($username === $db_name && $password === $db_pas){
+   $_SESSION['username'] = $db_name;
+   $_SESSION['password'] = $db_pas;
+   header('Location: ./user/index.php');
+}else{
+    echo "wrong password";
 }
-else{
-    
 }
+
 }
 ?>
 
@@ -25,7 +34,7 @@ else{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Site</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
@@ -35,11 +44,11 @@ else{
     <div class="container">
         <div class="row justify-content-center" style="margin-top: 250px;">
             <h3 class="text-center">login</h3>
-            <form action="./user/index.php" class="form" style="width: 40%;">
+            <form action="" class="form" style="width: 40%;" method="POST">
                 <div class="form-floating mb-3">
                     <label for="floatingInput">Username</label>
-                    <input type="name" name="username" class="form-control" id="floatingInput" placeholder="Example12..">
-                    <label for="floatingInput">Email address</label>
+                    <input type="name" name="username" class="form-control" id="floatingInput" placeholder="enter username">
+                    
                 </div>
                 <div class="form-floating">
                     <label for="floatingPassword">Password</label>

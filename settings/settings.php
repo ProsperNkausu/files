@@ -1,35 +1,26 @@
 <?php
 session_start();
-
-include('../conn.php');
+include '../conn.php';
 ?>
-<?php if($_SESSION['username'] != null && $_SESSION['password'] != null) :?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U-Drive</title>
+    <title>settings</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
 </head>
-<style>
-    body {
-        background-image: url(../img/blue-lint-abstract-8k-5120x2880.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
 
+<style>
     .card {
 
         height: 35vh;
-        background: url(../img/10896733.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
+        margin-right: 100px;
         border-radius: 35px;
-
-
 
     }
 
@@ -78,9 +69,9 @@ include('../conn.php');
 
     <!-- navbar -->
 
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgba(100, 100, 100, 0.558);">
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgba(192, 191, 191, 0.261);">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">U-Drive</a>
+            <a class="navbar-brand" href="../user/index.php">U-Drive</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -110,56 +101,64 @@ include('../conn.php');
             </div>
         </div>
     </nav>
+    <!-- second nav link -->
+    <!-- Nav tabs -->
 
-    <!-- main content -->
+    <div class="container py-5">
 
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link " aria-current="page" href="#">Your U-Drive Storage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="settings.php">Settings</a>
+                        </li>
 
-    <div class="container" style="margin-left:450px">
-        <div class=" row " style="margin-top: 150px;">
-
-            <div class="card" style="width: 24rem;">
-                <?php
-                $query = "SELECT * FROM users LIMIT 1";
-                $statement = $pdo->prepare($query);
-                $statement->execute();
-
-                $statement->setFetchMode(PDO::FETCH_OBJ);
-                $result = $statement->fetchAll();
-                if ($result) {
-
-                    foreach ($result as $row) {
-
-                ?><a href="../settings/settings.php">
-                            <div class="card-body">
-                                <img src="../img/IMG_0112.JPG" class="profile">
-
-                                <h2 class="card-text"><?= $row->username ?></h2>
-                                <p class="em">
-                                    <?= $row->email ?>
-                                </p>
-                                <h2 class="card-text udrive">U-Drive</h2>
-
-                            </div>
-                        </a>
-                <?php
-
-                    }
-                } ?>
+                    </ul>
+                </div>
             </div>
+        </nav>
 
-            <!-- uploads  -->
-            <div class="card" style="width: 40rem; background:rgba(100, 100, 100, 0.484);">
+        <?php
+        $query = "SELECT * FROM users";
+        $statement = $pdo->prepare($query);
+        $statement->execute();
+
+        $statement->setFetchMode(PDO::FETCH_OBJ);
+        $result = $statement->fetchAll();
+        if ($result) {
+
+            foreach ($result as $row) {
+
+        ?>
+                <h2 class="card-text udrive" style="margin-left: 20px; font-size: 40px;"><?= $row->username ?></h2>
 
 
-            </div>
+                </a>
+        <?php
+
+            }
+        } ?>
+
+
+
+
+
+
+    </div>
+    <div class="container-fluid">
+        <div class="card " style="width: 40rem; background:rgba(100, 100, 100, 0.484); margin-left: 290px; ">
+
 
         </div>
     </div>
-    <?php else: ?>
-        <h1>Nice one</h1>
-    <?php endif ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
 
 </html>
