@@ -1,30 +1,28 @@
 <?php
 session_start();
-$_SESSION['username'] = null;
-$_SESSION['password'] = null;
 require_once("./conn.php");
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if(isset($_POST['log_in'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    $user1 = $pdo->prepare("SELECT * FROM users WHERE username= '$username'");
+    $user1->execute();
+    $user = $user1->fetchAll(PDO::FETCH_ASSOC);
+    foreach($user as $u){
+        $db_name = $u['username'];
+        $db_pas = $u['password'];
 
+    if($username === $db_name && $password === $db_pas){
+        $_SESSION['username'] = $db_name;
+        $_SESSION['password'] = $db_pas;
+        header('Location: ./user/index.php');
+    }else{
+        echo "wrong password";
+    }
+    }
 
-$user1 = $pdo->prepare("SELECT * FROM users WHERE username= '$password'");
-$user1->execute();
-$user = $user1->fetchAll(PDO::FETCH_ASSOC);
-foreach($user as $u){
-    $db_name = $u['username'];
-    $db_pas = $u['password'];
-
-if($username === $db_name && $password === $db_pas){
-   $_SESSION['username'] = $db_name;
-   $_SESSION['password'] = $db_pas;
-   header('Location: ./user/index.php');
-}else{
-    echo "wrong password";
 }
-}
-
 }
 ?>
 
@@ -57,7 +55,7 @@ if($username === $db_name && $password === $db_pas){
                 </div>
 
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-3 py-2 p-5 mt-3" style="margin-left: 180px;">Log in</button>
+                    <button type="submit" class="btn btn-primary mb-3 py-2 p-5 mt-3" style="margin-left: 180px;" name="log_in">Log in</button>
                 </div>
             </form>
         </div>
