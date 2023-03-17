@@ -1,6 +1,5 @@
 <?php
 session_start();
-<<<<<<< HEAD
 require_once("./conn.php");
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(isset($_POST['log_in'])){
@@ -26,23 +25,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 }
 ?>
-=======
-
-// Check if user submitted the form
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Validate input
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // Check if username and password are correct in the database using PHP PDO
-    // If login is successful, create session and redirect to loading page
-    $_SESSION['username'] = $username;
-    $_SESSION['size'] = $size;
-    header('Location: user/index.php ');
-    exit();
-}
-
->>>>>>> c90b0be266339be05fe5f5fab34d685f1766f0ce
 
 ?>
 <!DOCTYPE html>
