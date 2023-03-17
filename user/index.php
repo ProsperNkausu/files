@@ -1,9 +1,20 @@
 <?php
 session_start();
+include '../conn.php';
+// Check if the user is logged in
+if (isset($_SESSION['username'])) {
+    // Retrieve the username from the session
+    $username = $_SESSION['username'];
 
-include('../conn.php');
+    // Display the username on the page
+
+} else {
+    // Redirect the user to the login page if they're not logged in
+    header("Location: ../index.php");
+    exit();
+}
 ?>
-<?php if($_SESSION['username'] != null && $_SESSION['password'] != null) :?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +30,7 @@ include('../conn.php');
         background-image: url(../img/blue-lint-abstract-8k-5120x2880.jpg);
         background-size: cover;
         background-repeat: no-repeat;
+        background-attachment: fixed;
     }
 
     .card {
@@ -72,6 +84,18 @@ include('../conn.php');
     .link a:hover {
         color: green;
     }
+
+    .dropdown {
+        margin-right: 20px;
+    }
+
+    .dropdown-menu {
+        margin-right: 20px;
+    }
+
+    .icon {
+        border-radius: 50px;
+    }
 </style>
 
 <body>
@@ -89,22 +113,16 @@ include('../conn.php');
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="#">icon notify</a>
                     </li>
-                    <li class="nav-item link">
-                        <a class="nav-link " href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            <img src="../img/IMG_0112.JPG" class="settings">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="../img/IMG_0112.JPG" alt="Image Icon" class="icon" width="35" height="35">
                         </a>
-                        <ul class=" dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="../settings/settings.php">Settings</a>
+                            <a class="dropdown-item" href="../index.php">Logout</a>
+                        </div>
+                    </div>
 
                 </ul>
             </div>
@@ -118,33 +136,21 @@ include('../conn.php');
         <div class=" row " style="margin-top: 150px;">
 
             <div class="card" style="width: 24rem;">
-                <?php
-                $query = "SELECT * FROM users LIMIT 1";
-                $statement = $pdo->prepare($query);
-                $statement->execute();
 
-                $statement->setFetchMode(PDO::FETCH_OBJ);
-                $result = $statement->fetchAll();
-                if ($result) {
 
-                    foreach ($result as $row) {
-
-                ?><a href="../settings/settings.php">
-                            <div class="card-body">
-                                <img src="../img/IMG_0112.JPG" class="profile">
-
-                                <h2 class="card-text"><?= $row->username ?></h2>
+                <a href="../settings/settings.php">
+                    <div class="card-body">
+                        <img src="../img/IMG_0112.JPG" class="profile">
+                       
+                                <h2 class="card-text"><?php echo $username ?></h2>
                                 <p class="em">
-                                    <?= $row->email ?>
+                           
                                 </p>
                                 <h2 class="card-text udrive">U-Drive</h2>
 
-                            </div>
-                        </a>
-                <?php
+                    </div>
+                </a>
 
-                    }
-                } ?>
             </div>
 
             <!-- uploads  -->
@@ -155,9 +161,7 @@ include('../conn.php');
 
         </div>
     </div>
-    <?php else: ?>
-        <h1>Nice one</h1>
-    <?php endif ?>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
