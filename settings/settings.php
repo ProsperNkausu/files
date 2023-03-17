@@ -1,7 +1,22 @@
 <?php
+
 session_start();
 include '../conn.php';
+// Check if the user is logged in
+if (isset($_SESSION['username'])) {
+    // Retrieve the username from the session
+    $username = $_SESSION['username'];
+
+    // Display the username on the page
+
+} else {
+    // Redirect the user to the login page if they're not logged in
+    header("Location: ../index.php");
+    exit();
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,13 +78,27 @@ include '../conn.php';
     .link a:hover {
         color: green;
     }
+
+    .icon {
+        border-radius: 50px;
+    }
+
+    .udrive_title {
+        font-size: 22px;
+        margin: 30px;
+    }
+
+    a:hover {
+        color: black;
+
+    }
 </style>
 
 <body>
 
     <!-- navbar -->
 
-    <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgba(192, 191, 191, 0.261);">
+    <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#24160aa1;">
         <div class="container-fluid">
             <a class="navbar-brand" href="../user/index.php">U-Drive</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,22 +109,16 @@ include '../conn.php';
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="#">icon notify</a>
                     </li>
-                    <li class="nav-item link">
-                        <a class="nav-link " href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                            <img src="../img/IMG_0112.JPG" class="settings">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="../img/IMG_0112.JPG" alt="Image Icon" class="icon" width="35" height="35">
                         </a>
-                        <ul class=" dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="../settings/settings.php">Settings</a>
+                            <a class="dropdown-item" href="../index.php">Logout</a>
+                        </div>
+                    </div>
 
                 </ul>
             </div>
@@ -125,26 +148,12 @@ include '../conn.php';
             </div>
         </nav>
 
-        <?php
-        $query = "SELECT * FROM users";
-        $statement = $pdo->prepare($query);
-        $statement->execute();
 
-        $statement->setFetchMode(PDO::FETCH_OBJ);
-        $result = $statement->fetchAll();
-        if ($result) {
-
-            foreach ($result as $row) {
-
-        ?>
-                <h2 class="card-text udrive" style="margin-left: 20px; font-size: 40px;"><?= $row->username ?></h2>
+        <h2 class="card-text udrive" style="margin-left: 20px; font-size: 40px;"><?php echo $username ?></h2>
 
 
-                </a>
-        <?php
+        </a>
 
-            }
-        } ?>
 
 
 
@@ -153,8 +162,31 @@ include '../conn.php';
 
     </div>
     <div class="container-fluid">
-        <div class="card " style="width: 40rem; background:rgba(100, 100, 100, 0.484); margin-left: 290px; ">
+        <div class="card " style="width: 40rem; 
+        background:url(../img/1727327223.jpg); 
+        background-size:cover;
+        background-repeat:no-repeat;
+         margin-left: 290px; ">
+            <h1 class="card-text udrive_title" style="margin-left: 50px; color:white; font-size:35px;">U-Drive</h1>
 
+            <div class="links " style="margin-top: 145px; display:inline-flex; justify-content:space-between; ">
+                <ul class="links">
+                    <a href="" style="text-decoration:none; 
+            font-size:20px; margin-left:25px; 
+            color:white; 
+            font-weight:bold; ">Storage ></a>
+                </ul>
+
+
+
+                <div class="" style="background-color:#3e352e77; box-shadow:0px 0px 1px 1px; padding:7px; align-items:center; margin-right:15px; border-radius:10px; color:white;">
+                    <h3 class="text" style=" ">100 MB</h3>
+                </div>
+                <?php
+
+
+                ?>
+            </div>
 
         </div>
     </div>

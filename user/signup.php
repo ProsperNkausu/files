@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $email = $_POST['email'];
     $sinnumber = $_POST['sinnumber'];
     $password = $_POST['password'];
-    
+
 
     // $query =
     $query_run = $pdo->prepare( "INSERT INTO users(username, email, sinnumber, password) VALUES(:username, :email, :sinnumber, :password)");
@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $query_run->bindValue(":sinnumber", $sinnumber);
     $query_run->bindValue(":password", $password);
     $query_run->execute();
+}else{
+    header("location:../index.php");
 }
 
     
@@ -33,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 </head>
 
 <body>
-    <form action="../index.php" method="POST">
+    <form action="" method="POST">
         <div class="container">
             <div class="row justify-content-center" style="margin-top: 150px;">
                 <h4 class="">
